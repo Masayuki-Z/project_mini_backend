@@ -69,8 +69,13 @@ app.get('/expenses/today/:userId', (req, res) => {
 
 // Feature Search
 app.post('/expenses/search', (req, res) => {
-    
-})
+    const {search} = req.body;
+    const sql = "SELECT * FROM expense WHERE item LIKE ?";
+
+    con.query(sql, [`%${search}%`], function(err, results) {
+       
+    });
+});
 
 
 
