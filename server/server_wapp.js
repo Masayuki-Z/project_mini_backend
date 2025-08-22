@@ -70,10 +70,14 @@ app.get('/expenses/today/:userId', (req, res) => {
 // Feature Search
 app.post('/expenses/search', (req, res) => {
     const {search} = req.body;
-    const sql = "SELECT * FROM expense WHERE item LIKE ?";
+    const sql = "SELECT * FROM expense WHERE items LIKE ?";
 
     con.query(sql, [`%${search}%`], function(err, results) {
-       
+        console.log("Search results: ", results);
+        if(err) {
+            return res.status(500).send("Database server error");
+        }
+        res.json(results);
     });
 });
 
