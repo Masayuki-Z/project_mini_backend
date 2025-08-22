@@ -68,7 +68,9 @@ app.get('/expenses/today/:userId', (req, res) => {
 
 
 // Feature Search
-
+app.post('/expenses/search', (req, res) => {
+    
+})
 
 
 
