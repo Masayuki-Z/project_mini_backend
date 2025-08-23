@@ -63,27 +63,31 @@ app.get('/expenses/today/:userId', (req, res) => {
 
 // Feature Search
 // Feature Add
+// Feature Add
 app.post('/expenses', (req, res) => {
-    const { items, paid } = req.body;
+    // 1. Get the userId from the request body along with items and paid
+    const { items, paid, userId } = req.body;
 
-    // Basic validation
-    if (!items || !paid) {
-        return res.status(400).send('Item and paid amount are required.');
+    // 2. Update validation to include userId
+    if (!items || !paid || !userId) {
+        return res.status(400).send('Item, paid amount, and userId are required.');
     }
     if (isNaN(paid)) {
         return res.status(400).send('Paid amount must be a number.');
     }
 
-    // The 'date' will be set to the current time by the database using NOW()
-    const sql = "INSERT INTO expense (items, paid, date) VALUES (?, ?, NOW())";
+    // 3. Update the SQL query to include the 'user_id' column
+    //    Assuming your table's foreign key column is named 'user_id'
+    const sql = "INSERT INTO expense (items, paid, user_id, date) VALUES (?, ?, ?, NOW())";
 
-    con.query(sql, [items, paid], function(err, result) {
+    // 4. Add userId to the array of values for the query
+    con.query(sql, [items, paid, userId], function(err, result) {
         if (err) {
             console.error(err);
             return res.status(500).send('Database server error.');
         }
-        // On success, send back a confirmation message
-        res.status(201).send(`Expense added successfully with ID: ${result.insertId}`);
+        
+        res.status(201).send(`Expense for user added successfully with ID: ${result.insertId}`);
     });
 });
 
