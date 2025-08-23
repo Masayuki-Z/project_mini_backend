@@ -63,7 +63,6 @@ app.get('/expenses/today/:userId', (req, res) => {
 
 // Feature Search
 // Feature Add
-// Feature Add
 app.post('/expenses', (req, res) => {
     // 1. Get the userId from the request body along with items and paid
     const { items, paid, userId } = req.body;
