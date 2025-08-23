@@ -6,24 +6,28 @@ void main() async {
 }
 
 Future<void> addExpense() async {
-  print("===== Add New Expense =====");
+  print("===== Login =====");
 
-  // Get item name
-  stdout.write("Enter item name: ");
-  String? item = stdin.readLineSync()?.trim();
+  // Get Username
+  stdout.write("Username: ");
+  String? username = stdin.readLineSync()?.trim();
 
-  // Get amount paid
-  stdout.write("Enter amount paid: ");
+  // Get Password
+  stdout.write("Password: ");
   String? paidStr = stdin.readLineSync()?.trim();
 
+  print("========= Expense Tracking App =========");
+  print("Welcome $username");
+
+  String? item = stdin.readLineSync()?.trim();
   // Validate input
   if (item == null || item.isEmpty || paidStr == null || paidStr.isEmpty) {
     print("\nError: Item name and amount cannot be empty.");
     return;
   }
   if (double.tryParse(paidStr) == null) {
-      print("\nError: Amount paid must be a valid number.");
-      return;
+    print("\nError: Amount paid must be a valid number.");
+    return;
   }
 
   // Prepare data for the POST request
