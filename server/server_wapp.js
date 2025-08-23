@@ -106,6 +106,8 @@ app.delete('/expense/delete', (req,res)=>{
     if(!expenseId){
         return res.status(400).send('expenseID required');
     }
+     //delete expense belongs to user
+    const sqlDelete = "DELETE FROM expense WHERE id = ?";
     
 })
 
