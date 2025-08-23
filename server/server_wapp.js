@@ -23,7 +23,6 @@ app.post('/login', (req, res) => {
                 return res.status(500).send("Hashing error");
             }
             if(same) {
-
                 return res.json({
                     message: "Login OK",
                     userId: results[0].id
