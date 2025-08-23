@@ -101,8 +101,13 @@ app.get('/expenses/today/:userId', (req, res) => {
 
 
 // Feature Delete
-
-
+app.delete('/expense/delete', (req,res)=>{
+    const {expenseId} = req.body;
+    if(!expenseId){
+        return res.status(400).send('expenseID required');
+    }
+    
+})
 
 
 
