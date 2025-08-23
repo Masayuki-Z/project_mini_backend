@@ -62,14 +62,13 @@ app.get('/expenses/today/:userId', (req, res) => {
     });
 });
 
-
 // Feature Search
 // Feature Add
 app.post('/expenses', (req, res) => {
-    const { item, paid } = req.body;
+    const { items, paid } = req.body;
 
     // Basic validation
-    if (!item || !paid) {
+    if (!items || !paid) {
         return res.status(400).send('Item and paid amount are required.');
     }
     if (isNaN(paid)) {
@@ -77,9 +76,9 @@ app.post('/expenses', (req, res) => {
     }
 
     // The 'date' will be set to the current time by the database using NOW()
-    const sql = "INSERT INTO expense (item, paid, date) VALUES (?, ?, NOW())";
+    const sql = "INSERT INTO expense (items, paid, date) VALUES (?, ?, NOW())";
 
-    con.query(sql, [item, paid], function(err, result) {
+    con.query(sql, [items, paid], function(err, result) {
         if (err) {
             console.error(err);
             return res.status(500).send('Database server error.');
@@ -89,37 +88,7 @@ app.post('/expenses', (req, res) => {
     });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Feature Delete
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ---------- Server starts here ---------
 const PORT = 3000;
 app.listen(PORT, () => {
