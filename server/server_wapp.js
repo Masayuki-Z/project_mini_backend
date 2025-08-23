@@ -108,7 +108,13 @@ app.delete('/expense/delete', (req,res)=>{
     }
      //delete expense belongs to user
     const sqlDelete = "DELETE FROM expense WHERE id = ?";
-    
+    con.query(sqlDelete, [expenseId], function(err, result){
+        if(err){return res.status(500).send("Database server error");}
+        if(result.affectedRows === 0){
+            return res.status(404).send("Expense not found");
+        }
+        res.status(200).send("Deleted!");
+    })
 })
 
 
