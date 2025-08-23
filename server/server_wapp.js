@@ -3,12 +3,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const app = express();
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-
-
 
 // login
 app.post('/login', (req, res) => {
@@ -68,21 +64,6 @@ app.get('/expenses/today/:userId', (req, res) => {
 
 
 // Feature Search
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Feature Add
 
 
