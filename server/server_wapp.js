@@ -65,7 +65,29 @@ app.get('/expenses/today/:userId', (req, res) => {
 
 // Feature Search
 // Feature Add
+app.post('/expenses', (req, res) => {
+    const { item, paid } = req.body;
 
+    // Basic validation
+    if (!item || !paid) {
+        return res.status(400).send('Item and paid amount are required.');
+    }
+    if (isNaN(paid)) {
+        return res.status(400).send('Paid amount must be a number.');
+    }
+
+    // The 'date' will be set to the current time by the database using NOW()
+    const sql = "INSERT INTO expense (item, paid, date) VALUES (?, ?, NOW())";
+
+    con.query(sql, [item, paid], function(err, result) {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Database server error.');
+        }
+        // On success, send back a confirmation message
+        res.status(201).send(`Expense added successfully with ID: ${result.insertId}`);
+    });
+});
 
 
 
