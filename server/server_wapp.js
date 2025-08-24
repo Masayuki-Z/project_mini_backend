@@ -78,20 +78,30 @@ app.post('/expenses/search', (req, res) => {
 
 // Feature Delete
 app.delete('/expense/delete', (req,res)=>{
-    const {expenseId} = req.body;
-    if(!expenseId){
-        return res.status(400).send('expenseID required');
+    const {expenseId, userId} = req.body;
+    if(!expenseId || !userId){
+        return res.status(400).send('expenseId and userId required');
     }
-     //delete expense belongs to user
-    const sqlDelete = "DELETE FROM expense WHERE id = ?";
-    con.query(sqlDelete, [expenseId], function(err, result){
+    // Only delete if the expense belongs to the user
+    const sqlDelete = "DELETE FROM expense WHERE id = ? AND user_id = ?";
+    con.query(sqlDelete, [expenseId, userId], function(err, result){
         if(err){return res.status(500).send("Database server error");}
         if(result.affectedRows === 0){
-            return res.status(404).send("Expense not found");
+            // Check if the expense exists at all
+            const sqlCheck = "SELECT id FROM expense WHERE id = ?";
+            con.query(sqlCheck, [expenseId], function(err2, result2){
+                if(err2){return res.status(500).send("Database server error");}
+                if(result2.length === 0){
+                    return res.status(404).send("Expense not found");
+                } else {
+                    return res.status(403).send("You do not have permission to delete this expense");
+                }
+            });
+            return;
         }
         res.status(200).send("Deleted!");
-    })
-})
+    });
+});
 
 
 // Feature Add
@@ -122,7 +132,6 @@ app.post('/expenses/add', (req, res) => {
     });
 });
 
-// Feature Delete
 // ---------- Server starts here ---------
 const PORT = 3000;
 app.listen(PORT, () => {
