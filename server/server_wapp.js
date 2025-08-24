@@ -33,6 +33,25 @@ app.post('/login', (req, res) => {
     })
 });
 
+
+// Get username for a user 
+app.get('/users/:userId', (req, res) => {
+    const { userId } = req.params;  // now it matches /users/:userId
+    const sql = "SELECT id, username FROM users WHERE id = ?";
+    con.query(sql, [userId], function(err, result) {
+        if (err) {
+            return res.status(500).send("Database server error");
+        }
+        if (result.length === 0) {
+            return res.status(404).send("User not found");
+        }
+        return res.json(result[0]);  // return a single object instead of array
+    });
+});
+
+
+
+
 // Get all expenses for a user
 app.get('/expenses/:userId', (req, res) => {
     const { userId } = req.params;
