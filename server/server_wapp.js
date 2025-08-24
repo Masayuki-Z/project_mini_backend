@@ -62,6 +62,18 @@ app.get('/expenses/today/:userId', (req, res) => {
 });
 
 // Feature Search
+app.post('/expenses/search', (req, res) => {
+    const {search} = req.body;
+    const sql = "SELECT * FROM expense WHERE items LIKE ?";
+
+    con.query(sql, [`%${search}%`], function(err, results) {
+        console.log("Search results: ", results);
+        if(err) {
+            return res.status(500).send("Database server error");
+        }
+        res.json(results);
+    });
+});
 
 
 
@@ -95,6 +107,22 @@ app.get('/expenses/today/:userId', (req, res) => {
 
 
 
+// Feature Delete
+app.delete('/expense/delete', (req,res)=>{
+    const {expenseId} = req.body;
+    if(!expenseId){
+        return res.status(400).send('expenseID required');
+    }
+     //delete expense belongs to user
+    const sqlDelete = "DELETE FROM expense WHERE id = ?";
+    con.query(sqlDelete, [expenseId], function(err, result){
+        if(err){return res.status(500).send("Database server error");}
+        if(result.affectedRows === 0){
+            return res.status(404).send("Expense not found");
+        }
+        res.status(200).send("Deleted!");
+    })
+})
 
 
 
