@@ -62,11 +62,12 @@ app.get('/expenses/today/:userId', (req, res) => {
 });
 
 // Feature Search
-app.post('/expenses/search', (req, res) => {
+app.post('/expenses/search/:userId', (req, res) => {
     const {search} = req.body;
-    const sql = "SELECT * FROM expense WHERE items LIKE ?";
+    const {userId} = req.params;
+    const sql = "SELECT * FROM expense WHERE items LIKE ? AND user_id LIKE ?";
 
-    con.query(sql, [`%${search}%`], function(err, results) {
+    con.query(sql, [`%${search}%`, userId], function(err, results) { //% find word whatever that word is font middle or back
         console.log("Search results: ", results);
         if(err) {
             return res.status(500).send("Database server error");
