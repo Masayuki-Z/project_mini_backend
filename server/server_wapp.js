@@ -76,37 +76,6 @@ app.post('/expenses/search', (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Feature Delete
 app.delete('/expense/delete', (req,res)=>{
     const {expenseId} = req.body;
@@ -125,118 +94,8 @@ app.delete('/expense/delete', (req,res)=>{
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Feature Add
-app.post('/expenses', (req, res) => {
+app.post('/expenses/add', (req, res) => {
     // 1. Get the userId from the request body along with items and paid
     const { items, paid, userId } = req.body;
 
